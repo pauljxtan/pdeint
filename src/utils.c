@@ -16,11 +16,22 @@ void print_arr(double arr[], int n) {
 void print_arr_complex(complex double arr[], int n) {
     int i;
 
+    /* Real and imaginary together
+    for (i = 0; i < n; i++) {
+        printf("%f%+fi ", creal(arr[i]), cimag(arr[i]));
+    printf("%f%+fi\n", creal(arr[n - 1]), cimag(arr[n - 1]));
+    */
+
+    /* Real and imaginary separately */
+    for (i = 0; i < n; i++)
+        printf("%f ", creal(arr[i]));
     for (i = 0; i < n - 1; i++)
-//        printf("%f%+fi ", creal(arr[i]), cimag(arr[i]));
-//    printf("%f%+fi\n", creal(arr[n - 1]), cimag(arr[n - 1]));
-//        printf("%f ", creal(arr[i]));
-//    printf("%f\n", creal(arr[n - 1]));
+        printf("%f ", cimag(arr[i]));
+    printf("%f\n", cimag(arr[n - 1]));
+    
+    /* Absolute value
+    for (i = 0; i < n - 1; i++)
         printf("%f ", cabs(arr[i]));
     printf("%f\n", cabs(arr[n - 1]));
+    */
 }

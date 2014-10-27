@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import sys
 
 def main():
-    frameskip = 5
+    frameskip = 2
     plt.ion()
 
     framecount = 0
@@ -12,9 +12,10 @@ def main():
     data = []
     fig = plt.figure()
     sp = fig.add_subplot(111)
-    sp.set_ylim(0, 1)
+    #sp.set_ylim(0, 1)
     #sp.set_ylim(-1, 1)
-    line = None
+    line1 = None
+    line2 = None
     
     while True:
         data = sys.stdin.readline()
@@ -26,11 +27,24 @@ def main():
         data = data.split(" ")
         data = map(float, data)
         sp.set_title(str(framecount))
-        if line is None:
-            line, = sp.plot(range(len(data)), data)
+        if line1 is None:
+            # If plotting absolute value:
+            #line, = sp.plot(range(len(data)), data)
+
+            # If plotting real and imaginary separately:
+            line1, = sp.plot(range(len(data) / 2), data[:len(data) / 2])
+            line2, = sp.plot(range(len(data) / 2), data[len(data) / 2:])
         else:
-            line.set_xdata(range(len(data)))
-            line.set_ydata(data)
+            # If plotting absolute value:
+            #line.set_xdata(range(len(data)))
+            #line.set_ydata(data)
+
+            # If plotting real and imaginary separately:
+            line1.set_xdata(range(len(data) / 2))
+            line1.set_ydata(data[:len(data) / 2])
+            line2.set_xdata(range(len(data) / 2))
+            line2.set_ydata(data[len(data) / 2:])
+
         #plt.savefig("./frames1/"+str(framecount)+".png")
         plt.draw()
 
