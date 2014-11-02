@@ -1,0 +1,67 @@
+\documentclass{article}
+\usepackage{amsfonts, amsmath, amssymb}
+\usepackage{fullpage}
+\usepackage{hyperref}
+
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\section{Banded matrices}
+
+A banded matrix is a generalized form of a tridiagonal matrix that may have multiple non-zero elements either side of the diagonal. For example, a banded ``pentadiagonal'' matrix with 2 diagonals either side of the main diagonal might look like this:
+\begin{equation}
+  \mathbf{X} =
+  \begin{pmatrix}
+    x_{00} & x_{01} & x_{02} & 0      & 0      & 0      & 0      & 0      \\
+    x_{10} & x_{11} & x_{12} & x_{13} & 0      & 0      & 0      & 0      \\
+    x_{20} & x_{21} & x_{22} & x_{23} & x_{24} & 0      & 0      & 0      \\
+    0      & x_{31} & x_{32} & x_{33} & x_{34} & x_{35} & 0      & 0      \\
+    0      & 0      & x_{42} & x_{43} & x_{44} & x_{45} & x_{46} & 0      \\
+    0      & 0      & 0      & x_{53} & x_{54} & x_{55} & x_{56} & x_{57} \\
+    0      & 0      & 0      & 0      & x_{64} & x_{65} & x_{66} & x_{67} \\
+    0      & 0      & 0      & 0      & 0      & x_{75} & x_{76} & x_{77}
+  \end{pmatrix}
+\end{equation}
+
+To save on memory allocation that may be wasted on a bunch of zero elements, we can represent this matrix in an alternate, more compact form by ``transposing'' the diagonals to rows. To wit:
+\begin{equation}
+  \mathbf{X} =
+  \begin{pmatrix}
+           &        & x_{02} & x_{13} & x_{24} & x_{35} & x_{46} & x_{57} \\
+           & x_{01} & x_{12} & x_{23} & x_{34} & x_{45} & x_{56} & x_{67} \\
+    x_{00} & x_{11} & x_{22} & x_{33} & x_{44} & x_{55} & x_{66} & x_{77} \\
+    x_{10} & x_{21} & x_{32} & x_{43} & x_{54} & x_{65} & x_{76} &        \\
+    x_{20} & x_{31} & x_{42} & x_{53} & x_{64} & x_{75} &        &        
+  \end{pmatrix}
+\end{equation}
+
+In doing so, we have reduced our original 8 $\times$ 8 matrix into a smaller 8 $\times$ 5 matrix. (In general, the height of the matrix is reduced to the number of diagonals.) It may not seem like much for this small example, but you can imagine how useful it is with large matrices with hundreds or thousands of rows. If our ``pentadiagonal'' matrix had dimensions 1000 $\times$ 1000, representing it as a 1000 $\times$ 5 matrix reduces memory allocation by a whopping 99.5\%! \\
+
+As a bonus, they're also more convenient to code with since diagonals are easier to access. \\
+
+The functions in \textbf{banded.c} require input matrices to be cast in this format. (N.B.: The blank elements may be any value since they are never used.)
+
+\section{The ``particle in a box''}
+
+Useful references:
+\begin{itemize}
+  \item Crank-Nicolson method: \url{http://en.wikipedia.org/wiki/Crank-Nicolson\_method}
+  \item Particle in a box: \url{http://en.wikipedia.org/wiki/Particle\_in\_a\_box}
+\end{itemize}
+
+The iconic one-dimensional Schrodinger equation is
+\begin{equation}
+  i\hbar \frac{\partial}{\partial t} \psi(x, t) = -\frac{\hbar^2}{2m} \frac{\partial^2}{\partial x^2} \psi(x, t) + V(x)\psi(x, t)
+\end{equation}
+
+We want to solve this inside the box, i.e. between $x = 0$ and $x = L$, where $V(x) = 0$. \\
+
+\dots (DERIVATION GOES HERE) \dots \\
+
+The Crank-Nicolson equation is then
+\begin{equation}
+  \psi(x, t+h) - h \frac{i\hbar}{4ma^2} [\psi(x+a, t+h) + \psi(x-a, t+h) - 2\psi(x, t+h)] = \psi(x, t) + h \frac{i\hbar}{4ma^2} [\psi(x+a, t) + \psi(x-a, t) - 2\psi(x, t)]
+\end{equation}
+
+\end{document}
