@@ -10,28 +10,29 @@
 #include "constants.h"
 #include "utils.h"
 
-/* TODO:
- * Interactive mode for selecting integration parameters */
+void print_usage();
 
-int main() {
+int main(int argc, char *argv[]) {
+    if (argc != 7) {
+        print_usage();
+        return 1;
+    }
 
     /* Width of box [m] */
-    const double L = 1.0e-9;
+    const double L = atof(argv[1]);
     /* Number of grid steps */
-    const int N = 1001;
+    const int N = atoi(argv[2]);
     /* Grid spacing */
     const double a = L / (N - 1);
     /* Length of time-step */
-    const double dt = 1.0e-18;
-    //const double dt = 0.5e-17;
+    const double dt = atof(argv[3]);
     /* Number of time-steps */
-    const int nsteps = 10000;
+    const int nsteps = atoi(argv[4]);
 
     /* Wavefunction constants */
     const double x0 = L / 2.0;
-    const double sigma = 1.0e-10;
-    const double kappa = 5.0e10;
-    //const double kappa = 0.0;
+    const double sigma = atof(argv[5]);
+    const double kappa = atof(argv[6]);
 
     /* Elements of the matrices A and B (see docs for derivation) */
     const complex double a1 = 1.0 + (dt * hbar) / (2.0 * m_e * a*a) * I;
@@ -93,9 +94,13 @@ int main() {
         /* Now solve A * psi = v, where psi is the new wavefunction */
         psi = solve_band_complex(A, v, N, 1, 1);
 
-        //print_arr(psi, N);
         print_arr_complex(psi, N);
     }
 
     return EXIT_SUCCESS;
+}
+
+void print_usage() {
+    printf("Usage: ./particle_box [box width] [grid steps] [time step] "
+           "[number of steps] [sigma] [kappa]\n");
 }
