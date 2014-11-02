@@ -1,11 +1,10 @@
 #include <complex.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include "band.h"
 #include "utils.h"
 
 /* Solves the band matrix equation given by Ax = v (real version)
- * TODO: more info on band input format */
+ * See docs for info on band storage format */
 double * solve_band(double A[], double v[], int n,
                     int n_diag_above, int n_diag_below) {
     int i, j, k, m;
@@ -58,7 +57,7 @@ double * solve_band(double A[], double v[], int n,
 }
 
 /* Solves the band matrix equation given by Ax = v (complex version)
- * TODO: more info on band input format */
+ * See docs for info on band storage format */
 complex double * solve_band_complex(complex double A[], complex double v[],
                                     int n, int n_diag_above,
                                     int n_diag_below) {
