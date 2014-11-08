@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import sys
 
 def main():
-    frameskip = 2
+    frameskip = 5
     plt.ion()
 
     framecount = 0
@@ -12,8 +12,8 @@ def main():
     data = []
     fig = plt.figure()
     sp = fig.add_subplot(111)
-    #sp.set_ylim(0, 1)
-    #sp.set_ylim(-1, 1)
+    sp.set_ylim(-1, 1)
+    sp.set_ylim(-1, 1)
     line1 = None
     line2 = None
     
