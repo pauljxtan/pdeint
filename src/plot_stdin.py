@@ -4,7 +4,11 @@ import matplotlib.pyplot as plt
 import sys
 
 def main():
-    frameskip = int(sys.argv[1])
+    if len(sys.argv) > 1:
+        frameskip = int(sys.argv[1])
+    else:
+        frameskip = 1
+
     plt.ion()
 
     fig = plt.figure()
