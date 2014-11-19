@@ -1,22 +1,23 @@
-CC = gcc
-#CC = clang
+#CC = gcc
+CC = clang
 CFLAGS = -g -Wall
 INCLUDES = -I../include
 LFLAGS = -L../lib
 LIBS = -lm
-SRCS = band.c particle_box.c utils.c
-OBJS = $(SRCS:.c=.o)
-MAIN = particle_box
+OBJS = band.o utils.o
 
 .PHONY: depend clean
 
-all : $(MAIN)
+all: particle_box test
 
-$(MAIN) : $(OBJS)
-	$(CC) $(CFLAGS) $(INCLUDES) -o $(MAIN) $(OBJS) $(LIBS)
+particle_box: particle_box.o $(OBJS)
+	$(CC) $(CFLAGS) $(INCLUDES) -o particle_box particle_box.o $(OBJS) $(LIBS)
 
-.c.o :
+test: test.o $(OBJS)
+	$(CC) $(CFLAGS) $(INCLUDES) -o test test.o $(OBJS) $(LIBS)
+
+.c.o:
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-clean :
-	rm *.o $(MAIN)
+clean:
+	rm *.o particle_box test
